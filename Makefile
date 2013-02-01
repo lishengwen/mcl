@@ -4,7 +4,7 @@ OBJDIR=.
 OBJ=$(addprefix $(OBJDIR)/,$(subst .c,.o,$(subst $(SRCDIR)/,,$(SRC))))
 INCLUDEDIR=include
 CC=gcc44
-TARGET=logsvr
+TARGET=mcl
 CFLAGS=-g
 OPTIMIZE=-O2
 
