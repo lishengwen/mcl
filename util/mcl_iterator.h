@@ -8,6 +8,14 @@ typedef struct mcl_iter_s {
 	int _sz;
 } mcl_iter;
 
+#define MCL_ITER_INIT(_iter) \
+	do { \
+		_iter->_ptr = NULL; \
+		_iter->_data = NULL; \
+		_iter->_index = -1; \
+		_iter->_sz = 0; \
+	} while(0)
+
 #define MCL_FOREACH(_iter, _container_ptr) \
 	for ((_container_ptr)->iter_head(&(_iter), (_container_ptr)); \
 			(_iter).ptr; \
