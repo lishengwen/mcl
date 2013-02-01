@@ -1,6 +1,8 @@
 #ifndef __MCL_STRING_H__
 #define __MCL_STRING_H__
 
+#include <string.h>
+
 typedef struct mcl_string_s {
 	unsigned int *_len;
 	char _ptr[0];

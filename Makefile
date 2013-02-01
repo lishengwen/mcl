@@ -1,34 +1,43 @@
-SRCDIR=src
-SRC:=$(wildcard $(SRCDIR)/*.c)
-OBJDIR=.
-OBJ=$(addprefix $(OBJDIR)/,$(subst .c,.o,$(subst $(SRCDIR)/,,$(SRC))))
-INCLUDEDIR=include
-CC=gcc44
-TARGET=mcl
-CFLAGS=-g
-OPTIMIZE=-O2
+ALLDIR:=util test
 
-INCLUDES=-I./include/ -I./ -I/user/local/include
+#SRCDIR=src
+#SRC:=$(wildcard $(SRCDIR)/*.c)
+#OBJDIR=.
+#OBJ=$(addprefix $(OBJDIR)/,$(subst .c,.o,$(subst $(SRCDIR)/,,$(SRC))))
+#INCLUDEDIR=include
+#CC=gcc44
+#TARGET=mcl
+#CFLAGS=-g
+#OPTIMIZE=-O2
 
-all:depend bin after_process
+#INCLUDES=-I./include/ -I./ -I/user/local/include
 
-depend:
-	-rm -f tmpdepend
-	for i in $(SRCDIR)/*.c; do $(CC) $(INCLUDES) -MM $$i >>tmpdepend; done
-	sed -e "s!^[^ ]!$(OBJDIR)/&!" <tmpdepend >.Dependencies
+#all:depend subdirs bin after_process
+all:subdirs
+
+#depend:
+#	-rm -f tmpdepend
+#	for i in $(SRCDIR)/*.c; do $(CC) $(INCLUDES) -MM $$i >>tmpdepend; done
+#	sed -e "s!^[^ ]!$(OBJDIR)/&!" <tmpdepend >.Dependencies
 #	-rm -f tmpdepend
 
--include .Dependencies
-$(OBJDIR)/%.o: $(SRCDIR)/%.c
-	$(CC) $(CFLAGS) $(INCLUDES) $(OPTIMIZE) -o $@ -c $<
+#-include .Dependencies
+#$(OBJDIR)/%.o: $(SRCDIR)/%.c
+#	$(CC) $(CFLAGS) $(INCLUDES) $(OPTIMIZE) -o $@ -c $<
 
-bin:$(OBJ)
-	$(CC) $(LIBRARY) $(LFLAGS) $(OBJ) -o $(TARGET)
+subdirs:
+	@for subdir in $(ALLDIR); do \
+		( cd $$subdir && gmake) \
+		done;
 
-after_process:
-	-rm -f $(OBJDIR)/*.o
+#bin:$(OBJ)
+#	$(CC) $(LIBRARY) $(LFLAGS) $(OBJ) -o $(TARGET)
+
+#after_process:
+#	-rm -f $(OBJDIR)/*.o
 
 clean:
-	-rm -f .Dependencies
-	-rm -f $(TARGET)
+	@for subdir in $(ALLDIR); do \
+		(cd $$subdir && gmake clean) \
+		done;
 

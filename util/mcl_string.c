@@ -1,6 +1,5 @@
 #include <mcl_string.h>
 #include <stdlib.h>
-#include <string.h>
 
 mcl_string *mcl_string_alloc(const char *strp, int len)
 {

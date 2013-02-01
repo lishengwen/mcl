@@ -22,7 +22,7 @@ typedef struct mcl_list_s {
 	void *(*iter_tail)(mcl_iter *iter, struct mcl_list_s *container);
 	void *(*iter_next)(mcl_iter *iter, struct mcl_list_s *container);
 	void *(*iter_prev)(mcl_iter *iter, struct mcl_list_s *container);
-	mcl_list_node *(*iter_info)(mcl_iter *iter, struct mcl_list_s *containter);
+	void *(*iter_info)(mcl_iter *iter, struct mcl_list_s *containter);
 	void (*iter_erase)(mcl_iter *iter, struct mcl_list_s *container);
 
 } mcl_list;
@@ -66,6 +66,7 @@ mcl_list *mcl_list_new();
 // destroy {@param list_ptr} totally
 void mcl_list_destroy(mcl_list *list_ptr);
 int mcl_list_insert(void *data, mcl_list *list_ptr);
+int mcl_list_insert_tail(void *data, mcl_list *list_ptr);
 // delete elem whose addr equals to 
 // {@param data} from {@param list_ptr}
 int mcl_list_delete(void *data, mcl_list *list_ptr);

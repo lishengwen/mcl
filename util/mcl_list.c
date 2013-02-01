@@ -137,7 +137,7 @@ static void *mcl_def_list_iter_prev(mcl_iter *iter, mcl_list *list)
 	}
 }
 
-static mcl_list_node *mcl_def_list_iter_info(mcl_iter *iter, mcl_list *list)
+static void *mcl_def_list_iter_info(mcl_iter *iter, mcl_list *list)
 {
 	mcl_list_head *ent = NULL;
 	mcl_list_node *node = NULL;
@@ -157,7 +157,7 @@ static mcl_list_node *mcl_def_list_iter_info(mcl_iter *iter, mcl_list *list)
 
 	assert(node == MCL_LIST_ENTRY(ent));
 
-	return node;
+	return node->_data;
 }
 
 mcl_list *mcl_list_new()
@@ -188,6 +188,9 @@ void mcl_list_destroy(mcl_list *list_ptr)
 			free(node);
 		}
 	}
+	else {
+		fprintf(stderr, "warning: destroy empty list\n");
+	}
 
 	free(list_ptr);
 }
@@ -203,6 +206,22 @@ int mcl_list_insert(void *data, mcl_list *list_ptr)
 
 	node->_data = data;
 	LIST_INSERT(&(node->_entry), &(list_ptr->_entries));
+	++ list_ptr->_list_sz;
+
+	return 1;
+}
+
+int mcl_list_insert_tail(void *data, mcl_list *list_ptr)
+{
+	if (list_ptr->_list_sz >= MCL_LIST_MAX_SIZE) {
+		fprintf(stderr, "list [%p] size beyond max size [%d]", list_ptr, MCL_LIST_MAX_SIZE);
+		return 0;
+	}
+
+	mcl_list_node *node = (mcl_list_node *)malloc(sizeof(*node));
+
+	node->_data = data;
+	LIST_INSERT_TAIL(&(node->_entry), &(list_ptr->_entries));
 	++ list_ptr->_list_sz;
 
 	return 1;

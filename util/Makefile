@@ -1,11 +1,12 @@
 SRCDIR=.
 SRC:=$(wildcard $(SRCDIR)/*.c)
+HEADER:=$(wildcard $(SRCDIR)/*.h)
 OBJDIR=.
 OBJ=$(addprefix $(OBJDIR)/,$(subst .c,.o,$(subst $(SRCDIR)/,,$(SRC))))
 INCLUDEDIR=../include
 LIBDIR=../lib
 CC=gcc44
-TARGET=util.a
+TARGET=libutil.a
 CFLAGS=-g
 OPTIMIZE=-O2
 AR=ar
