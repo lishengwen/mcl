@@ -27,7 +27,7 @@ all:subdirs
 
 subdirs:
 	@for subdir in $(ALLDIR); do \
-		( cd $$subdir && gmake) \
+		(cd $$subdir && gmake) \
 		done;
 
 #bin:$(OBJ)

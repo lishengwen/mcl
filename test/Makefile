@@ -1,4 +1,4 @@
-ALLDIR:=test_string test_list
+ALLDIR:=string list 
 
 all:subdirs
 
