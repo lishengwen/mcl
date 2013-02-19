@@ -1,0 +1,2 @@
+./main.o: main.c ../../include/mcl_array.h ../../include/mcl_common.h \
+ ../../include/mcl_iterator.h
