@@ -7,7 +7,7 @@ CC=gcc44
 TARGET=test_hash
 CFLAGS=-g
 OPTIMIZE=-O2
-LFLAGS=-lutil
+LFLAGS=-lmclutil
 
 LIBRARY=-L../../lib
 INCLUDES=-I../../include/ -I./ -I/user/local/include

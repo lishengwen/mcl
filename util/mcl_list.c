@@ -26,7 +26,7 @@ static inline int list_del(void *data, mcl_list *list_ptr, int free_flag, mcl_li
 
 static inline void common_iter_op(mcl_iter *iter)
 {
-	iter->_index = -1;
+	iter->_u._index = -1;
 	iter->_sz = -1;
 }
 
@@ -190,7 +190,12 @@ static mcl_iter *mcl_def_list_iter_erase(mcl_iter *iter, mcl_list *list)
 	list->iter_next(iter, list);
 
 	// delete node from list
-	list_del(data, list, 1, NULL, MCL_DEF_FREE_FN);
+	if (list->erase_fn) {
+		list_del(data, list, 1, NULL, list->erase_fn);
+	}
+	else {
+		list_del(data, list, 0, NULL, NULL);
+	}
 
 	return iter;
 }
@@ -199,6 +204,7 @@ mcl_list *mcl_list_new()
 {
 	mcl_list *listp = (mcl_list *)malloc(sizeof(*listp));
 	listp->_list_sz = 0;
+	listp->erase_fn = NULL;
 
 	INITIALIZE_LIST(&(listp->_entries));
 
@@ -318,4 +324,61 @@ int mcl_list_rm_cmp(void *data, mcl_list *list_ptr, mcl_list_cmp_func cmp_func)
 	return list_del(data, list_ptr, 0, cmp_func);
 }
 */
+
+void *mcl_list_find(void *data, mcl_list *list_ptr, mcl_list_cmp_func cmp_func)
+{
+	void *dst_data = NULL;
+
+	MCL_IF_NOT_RET(list_ptr, NULL);
+	MCL_IF_NOT_RET(data, NULL);
+
+	mcl_iter it = MCL_ITER_INITIALIZER;
+	MCL_FOREACH(it, list_ptr) {
+		dst_data = MCL_ITERATOR_INFO(it, list_ptr);
+		if (!dst_data) {
+			return NULL;
+		}
+		if (cmp_func) {
+			if (cmp_func(data, dst_data)) {
+				return dst_data;
+			}
+		}
+		else {
+			if (data == dst_data) {
+				return dst_data;
+			}
+		}
+	}
+
+	return NULL;
+}
+
+int mcl_list_size(mcl_list *list_ptr)
+{
+	if (!list_ptr) return 0;
+
+	return list_ptr->_list_sz;
+}
+
+int mcl_list_ctrl(mcl_ds_ctrl_cmd cmd, void *data, mcl_list *list_ptr)
+{
+	mcl_free_fn_t free_fn = NULL;
+
+	MCL_IF_NOT_RET(data, 0);
+	MCL_IF_NOT_RET(list_ptr, 0);
+
+	switch (cmd) {
+		case MCL_REGIST_ERASE_FN:
+			free_fn = (mcl_free_fn_t) data;
+			list_ptr->erase_fn = free_fn;
+			return 1;
+		case MCL_UNREGIST_ERASE_FN:
+			list_ptr->erase_fn = NULL;
+			return 1;
+		default:
+			break;
+	}
+
+	return 0;
+}
 

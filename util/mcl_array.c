@@ -22,7 +22,7 @@ static inline void unset_iter(mcl_iter *iter)
 {
 	iter->_ptr = NULL;
 	iter->_data = NULL;
-	iter->_index = -1;
+	iter->_u._index = -1;
 }
 
 static inline int check_out_of_bounds(int index, mcl_array *array)
@@ -48,9 +48,9 @@ static void *def_iter_head(mcl_iter *iter, mcl_array *array)
 	}
 	else {
 		iter->_ptr = iter->_data = array->_all_data[0];
-		iter->_index = 0;
+		iter->_u._index = 0;
 	}
-	return iter;
+	return iter->_ptr;
 }
 
 static void *def_iter_tail(mcl_iter *iter, mcl_array *array)
@@ -63,10 +63,10 @@ static void *def_iter_tail(mcl_iter *iter, mcl_array *array)
 	}
 	else {
 		iter->_ptr = iter->_data = array->_all_data[array->_cur_size - 1];
-		iter->_index = array->_cur_size - 1;
+		iter->_u._index = array->_cur_size - 1;
 	}
 
-	return iter;
+	return iter->_ptr;
 }
 
 static void *def_iter_next(mcl_iter *iter, mcl_array *array)
@@ -74,15 +74,15 @@ static void *def_iter_next(mcl_iter *iter, mcl_array *array)
 	MCL_IF_NOT_RET(iter, NULL);
 	MCL_IF_NOT_RET(array, NULL);
 
-	++ iter->_index;
-	if (check_out_of_bounds(iter->_index, array)) {
+	++ iter->_u._index;
+	if (check_out_of_bounds(iter->_u._index, array)) {
 		unset_iter(iter);
 	}
 	else {
-		iter->_ptr = iter->_data = array->_all_data[iter->_index];
+		iter->_ptr = iter->_data = array->_all_data[iter->_u._index];
 	}
 
-	return iter;
+	return iter->_ptr;
 }
 
 static void *def_iter_prev(mcl_iter *iter, mcl_array *array)
@@ -90,15 +90,15 @@ static void *def_iter_prev(mcl_iter *iter, mcl_array *array)
 	MCL_IF_NOT_RET(iter, NULL);
 	MCL_IF_NOT_RET(array, NULL);
 
-	-- iter->_index;
-	if (check_out_of_bounds(iter->_index, array)) {
+	-- iter->_u._index;
+	if (check_out_of_bounds(iter->_u._index, array)) {
 		unset_iter(iter);
 	}
 	else {
-		iter->_ptr = iter->_data = array->_all_data[iter->_index];
+		iter->_ptr = iter->_data = array->_all_data[iter->_u._index];
 	}
 
-	return iter;
+	return iter->_ptr;
 }
 
 static void *def_iter_info(mcl_iter *iter, mcl_array *array)
@@ -106,7 +106,7 @@ static void *def_iter_info(mcl_iter *iter, mcl_array *array)
 	MCL_IF_NOT_RET(iter, NULL);
 	MCL_IF_NOT_RET(array, NULL);
 
-	if (check_out_of_bounds(iter->_index, array)) {
+	if (check_out_of_bounds(iter->_u._index, array)) {
 		unset_iter(iter);
 		return NULL;
 	}
@@ -117,7 +117,7 @@ static void *def_iter_info(mcl_iter *iter, mcl_array *array)
 
 static mcl_iter *def_iter_erase(mcl_iter *iter, mcl_array *array)
 {
-	int index = iter->_index;
+	int index = iter->_u._index;
 
 	MCL_IF_NOT_RET(iter, NULL);
 	MCL_IF_NOT_RET(array, NULL);
@@ -127,13 +127,18 @@ static mcl_iter *def_iter_erase(mcl_iter *iter, mcl_array *array)
 		return NULL;
 	}
 	else {
-		index = mcl_array_delete_indx(index, array, free);
+		if (array->erase_fn) {
+			index = mcl_array_delete_indx(index, array, array->erase_fn);
+		}
+		else {
+			index = mcl_array_delete_indx(index, array, NULL);
+		}
 		if (index < 0) {
 			unset_iter(iter);
 			return NULL;
 		}
 		else {
-			iter->_index = index;
+			iter->_u._index = index;
 			iter->_ptr = iter->_data = array->_all_data[index];
 			return iter;
 		}
@@ -436,5 +441,27 @@ int mcl_array_capacity(mcl_array *array)
 	if (!array) return -1;
 
 	return array->_total_size;
+}
+
+int mcl_array_ctrl(mcl_ds_ctrl_cmd cmd, void *data, mcl_array *array)
+{
+	mcl_free_fn_t free_fn = NULL;
+
+	MCL_IF_NOT_RET(data, 0);
+	MCL_IF_NOT_RET(array, 0);
+
+	switch (cmd) {
+		case MCL_REGIST_ERASE_FN:
+			free_fn = (mcl_free_fn_t) data;
+			array->erase_fn = free_fn;
+			return 1;
+		case MCL_UNREGIST_ERASE_FN:
+			array->erase_fn = NULL;
+			return 1;
+		default:
+			break;
+	}
+
+	return 0;
 }
 

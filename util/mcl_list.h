@@ -28,6 +28,9 @@ typedef struct mcl_list_s {
 	void *(*iter_info)(mcl_iter *iter, struct mcl_list_s *containter);
 	mcl_iter *(*iter_erase)(mcl_iter *iter, struct mcl_list_s *container);
 
+	mcl_free_fn_t erase_fn;
+	//void (*erase_fn)(void *data);
+
 } mcl_list;
 
 #define CONTAINER_OF(ptr, type, member) ({\
@@ -99,6 +102,12 @@ int mcl_list_del_cmp(void *data, mcl_list *list_ptr, mcl_list_cmp_func cmp_func,
 int mcl_list_remove(void *data, mcl_list *list_ptr);
 int mcl_list_rm_cmp(void *data, mcl_list *list_ptr, mcl_list_cmp_func cmp_func);
 */
+
+void *mcl_list_find(void *data, mcl_list *list_ptr, mcl_list_cmp_func cmp_func);
+
+int mcl_list_size(mcl_list *list_ptr);
+
+int mcl_list_ctrl(mcl_ds_ctrl_cmd cmd, void *data, mcl_list *list_ptr);
 
 MCL_HEADER_END
 

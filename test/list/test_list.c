@@ -25,6 +25,7 @@ static void print_list(mcl_list *listp)
 int main1()
 {
 	mcl_list * listp = mcl_list_new();
+	mcl_list_ctrl(MCL_REGIST_ERASE_FN, free, listp);
 
 	mcl_iter it = MCL_ITER_INITIALIZER;
 

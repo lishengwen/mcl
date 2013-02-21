@@ -6,7 +6,7 @@ void print_array(mcl_array *arr)
 {
 	mcl_iter it = MCL_ITER_INITIALIZER;
 	int *info = NULL;
-	MCL_FOREACH(it, arr) {
+	MCL_FOREACH_REVERSE(it, arr) {
 		info = (int *)arr->iter_info(&it, arr);
 		printf("%d ", *info);
 	}

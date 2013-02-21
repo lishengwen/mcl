@@ -20,6 +20,8 @@ typedef struct mcl_array_s {
 	void *(*iter_prev)(mcl_iter *iter, struct mcl_array_s *container);
 	void *(*iter_info)(mcl_iter *iter, struct mcl_array_s *containter);
 	mcl_iter *(*iter_erase)(mcl_iter *iter, struct mcl_array_s *container);
+
+	void (*erase_fn)(void *data);
 } mcl_array;
 
 mcl_array *mcl_array_new(int init_size);
@@ -61,6 +63,8 @@ int mcl_array_capacity(mcl_array *array);
 #define MCL_SORT_DES (-1)
 // quick sort array by order, which is ascending when order > 1, otherwise descending
 void mcl_array_qsort(int order, mcl_array *array, int (*cmp_fn)(void *one, void *another));
+
+int mcl_array_ctrl(mcl_ds_ctrl_cmd cmd, void *data, mcl_array *array);
 
 MCL_HEADER_END
 

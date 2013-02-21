@@ -18,6 +18,11 @@ typedef enum mcl_data_type_e {
 	MCL_T_MAP = 4,
 } mcl_data_type;
 
+typedef enum mcl_ds_ctrl_cmd_e {
+	MCL_REGIST_ERASE_FN = 1,
+	MCL_UNREGIST_ERASE_FN = 2,
+} mcl_ds_ctrl_cmd;
+
 #define MCL_IF_NOT_RET(expr, ret) \
 	do { \
 		if (!(expr)) { \
