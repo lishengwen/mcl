@@ -1,7 +1,7 @@
 SRCDIR=.
 SRC:=$(wildcard $(SRCDIR)/*.c)
 HEADER:=$(wildcard $(SRCDIR)/*.h)
-OBJDIR=.
+OBJDIR=../
 OBJ=$(addprefix $(OBJDIR)/,$(subst .c,.o,$(subst $(SRCDIR)/,,$(SRC))))
 INCLUDEDIR=../include
 LIBDIR=../lib
@@ -27,15 +27,11 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) $(OPTIMIZE) -o $@ -c $<
 
 bin:$(OBJ)
-	$(AR) $(ARFLAG) $(LFLAGS) $(TARGET) $(OBJ) 
+	-echo 'mcl util compile done...'
 
 after_process:
-	-rm -f $(OBJDIR)/*.o
 	-cp *.h $(INCLUDEDIR)/
-	-cp $(TARGET) $(LIBDIR)/
 
 clean:
 	-rm -f .Dependencies
-	-rm -f $(TARGET)
-	-rm -f $(LIBDIR)/$(TARGET)
 

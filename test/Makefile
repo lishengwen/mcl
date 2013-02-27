@@ -1,4 +1,4 @@
-ALLDIR:=string list 
+ALLDIR:=string list hash array
 
 all:subdirs
 
