@@ -7,7 +7,7 @@ CC=gcc44
 TARGET=test_list
 CFLAGS=-g
 OPTIMIZE=-O2
-LFLAGS=-lmclutil
+LFLAGS=-lmcl
 
 LIBRARY=-L../../lib
 INCLUDES=-I../../include/ -I./ -I/user/local/include

@@ -1,4 +1,11 @@
-ALLDIR:=util test
+SRCDIR:=util
+TESTSUITE:=test
+ALLDIR:=$(SRCDIR) $(TESTSUITE)
+TARGET:=libmcl.a
+AR=ar
+ARFLAG=-rc
+OBJDIR=.
+LIBDIR=./lib
 
 #SRCDIR=src
 #SRC:=$(wildcard $(SRCDIR)/*.c)
@@ -13,7 +20,7 @@ ALLDIR:=util test
 #INCLUDES=-I./include/ -I./ -I/user/local/include
 
 #all:depend subdirs bin after_process
-all:subdirs
+all:subdirs target test_suite after_process
 
 #depend:
 #	-rm -f tmpdepend
@@ -26,18 +33,29 @@ all:subdirs
 #	$(CC) $(CFLAGS) $(INCLUDES) $(OPTIMIZE) -o $@ -c $<
 
 subdirs:
-	@for subdir in $(ALLDIR); do \
+	@for subdir in $(SRCDIR); do \
+		(cd $$subdir && gmake) \
+		done;
+
+target:
+	$(AR) $(ARFLAG) $(TARGET) $(OBJDIR)/*.o
+	-mv $(TARGET) $(LIBDIR)/
+
+test_suite:
+	@for subdir in $(TESTSUITE); do \
 		(cd $$subdir && gmake) \
 		done;
 
 #bin:$(OBJ)
 #	$(CC) $(LIBRARY) $(LFLAGS) $(OBJ) -o $(TARGET)
 
-#after_process:
-#	-rm -f $(OBJDIR)/*.o
+after_process:
+	-rm -f $(OBJDIR)/*.o
 
 clean:
 	@for subdir in $(ALLDIR); do \
 		(cd $$subdir && gmake clean) \
 		done;
+	-rm $(LIBDIR)/$(TARGET)
+	-rm -f $(OBJDIR)/*.o
 
