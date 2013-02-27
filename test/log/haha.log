@@ -1,0 +1,37 @@
+[2013-02-22 18:39:36] [UNKONWN] test test test !!!
+[2013-02-22 18:40:36] [INFO] test test test !!!
+[2013-02-22 18:42:03] [INFO] test test test !!!
+[2013-02-22 18:42:03] [ERROR] what the fuck of (
+[2013-02-22 18:42:42] [INFO] test test test !!!
+[2013-02-22 18:42:42] [ERROR] what the fuck of (
+[2013-02-22 18:43:23] [INFO] test test test !!!
+[2013-02-22 18:43:23] [ERROR] what the fuck of ( -4203590
+[2013-02-22 18:48:01] [INFO] test test test !!!
+[2013-02-22 18:48:01] [ERROR] what the fuck of ( -4203645
+[2013-02-22 18:48:01] [ERROR] [file: main.c, line: 15] what the fuck of ( -4203645
+[2013-02-22 18:49:00] [INFO] test test test !!!
+[2013-02-22 18:49:00] [ERROR] what the fuck of you 888
+[2013-02-22 18:49:00] [ERROR] [file: main.c, line: 15] what the fuck of you 888
+[2013-02-22 18:51:23] [INFO] test test test !!!
+[2013-02-22 18:51:23] [ERROR] what the fuck of you 20
+[2013-02-22 18:51:23] [DEBUG] [file: main.c, line: 17] 20
+[2013-02-22 18:51:23] [DEBUG] [file: main.c, line: 17] 19
+[2013-02-22 18:51:23] [DEBUG] [file: main.c, line: 17] 18
+[2013-02-22 18:51:23] [DEBUG] [file: main.c, line: 17] 17
+[2013-02-22 18:51:23] [DEBUG] [file: main.c, line: 17] 16
+[2013-02-22 18:51:23] [DEBUG] [file: main.c, line: 17] 15
+[2013-02-22 18:51:23] [DEBUG] [file: main.c, line: 17] 14
+[2013-02-22 18:51:23] [DEBUG] [file: main.c, line: 17] 13
+[2013-02-22 18:51:23] [DEBUG] [file: main.c, line: 17] 12
+[2013-02-22 18:51:23] [DEBUG] [file: main.c, line: 17] 11
+[2013-02-22 18:51:23] [DEBUG] [file: main.c, line: 17] 10
+[2013-02-22 18:51:23] [DEBUG] [file: main.c, line: 17] 9
+[2013-02-22 18:51:23] [DEBUG] [file: main.c, line: 17] 8
+[2013-02-22 18:51:23] [DEBUG] [file: main.c, line: 17] 7
+[2013-02-22 18:51:23] [DEBUG] [file: main.c, line: 17] 6
+[2013-02-22 18:51:23] [DEBUG] [file: main.c, line: 17] 5
+[2013-02-22 18:51:23] [DEBUG] [file: main.c, line: 17] 4
+[2013-02-22 18:51:23] [DEBUG] [file: main.c, line: 17] 3
+[2013-02-22 18:51:23] [DEBUG] [file: main.c, line: 17] 2
+[2013-02-22 18:51:23] [DEBUG] [file: main.c, line: 17] 1
+[2013-02-22 18:51:23] [DEBUG] [file: main.c, line: 17] 0
