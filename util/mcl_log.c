@@ -111,7 +111,7 @@ void mcl_log_info(mcl_log *logger, mcl_log_level level, const char *file, int li
 	make_mode(modestr, sizeof(modestr), level);
 
 	va_start(args, fmt);
-	(void *)vsnprintf(logbuff, sizeof(logbuff), fmt, args);
+	vsnprintf(logbuff, sizeof(logbuff), fmt, args);
 	va_end(args);
 
 	if (file) {
