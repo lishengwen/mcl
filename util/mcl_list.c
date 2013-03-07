@@ -13,7 +13,7 @@
 		_listp->iter_erase = mcl_def_list_iter_erase; \
 	} while (0)
 
-#define MCL_LIST_ENTRY(_entp) LIST_ENTRY((_entp), mcl_list_node, _entry)
+#define MCL_LIST_ENTRY(_entp) __LIST_ENTRY((_entp), mcl_list_node, _entry)
 
 #define POINTER_RET_NULL(_ptr) \
 	do { \

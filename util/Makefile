@@ -6,13 +6,11 @@ OBJ=$(addprefix $(OBJDIR)/,$(subst .c,.o,$(subst $(SRCDIR)/,,$(SRC))))
 INCLUDEDIR=../include
 LIBDIR=../lib
 CC=gcc44
-TARGET=libmclutil.a
-CFLAGS=-g -Werror
+CFLAGS=-g -Werror $(MAKEARGS)
 OPTIMIZE=-O2
-AR=ar
-ARFLAG=-rc
+CURRENT_DIR=util
 
-INCLUDES=-I. -I../include -I./ -I/user/local/include
+INCLUDES=-I. -I../include -I../include/util -I./ -I/user/local/include
 
 all:depend bin after_process
 
@@ -27,10 +25,12 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) $(OPTIMIZE) -o $@ -c $<
 
 bin:$(OBJ)
-	-echo 'mcl util compile done...'
+	@(echo 'mcl util compile done...')
 
 after_process:
-	-cp *.h $(INCLUDEDIR)/
+	-rm -rf $(INCLUDEDIR)/$(CURRENT_DIR)
+	-mkdir $(INCLUDEDIR)/$(CURRENT_DIR)
+	-cp *.h $(INCLUDEDIR)/$(CURRENT_DIR)/
 
 clean:
 	-rm -f .Dependencies

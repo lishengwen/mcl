@@ -1,11 +1,11 @@
 #ifndef __MCL_HASH_H__
 #define __MCL_HASH_H__
 
-#include <mcl_list.h>
-#include <mcl_string.h>
-#include <mcl_iterator.h>
+#include "mcl_list.h"
+#include "mcl_string.h"
+#include "mcl_iterator.h"
 //#include <mcl_array.h>
-#include <mcl_common.h>
+#include "mcl_common.h"
 
 MCL_HEADER_BEGIN
 

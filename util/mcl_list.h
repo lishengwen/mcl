@@ -2,8 +2,8 @@
 #define __MCL_LIST_H__
 
 #include <stddef.h>
-#include <mcl_iterator.h>
-#include <mcl_common.h>
+#include "mcl_iterator.h"
+#include "mcl_common.h"
 
 MCL_HEADER_BEGIN
 
@@ -41,7 +41,7 @@ typedef struct mcl_list_s {
 // ptr mcl_list_head指针
 // type 包含该指针的类型
 // member 该指针在类型中的成员名
-#define LIST_ENTRY(ptr, type, member) CONTAINER_OF((ptr), type, member)
+#define __LIST_ENTRY(ptr, type, member) CONTAINER_OF((ptr), type, member)
 
 #define INIT_LIST_VAL(name) {&(name),&(name)}
 

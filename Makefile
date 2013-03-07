@@ -1,4 +1,4 @@
-SRCDIR:=util
+SRCDIR:=util net
 TESTSUITE:=test
 ALLDIR:=$(SRCDIR) $(TESTSUITE)
 TARGET:=libmcl.a
@@ -6,6 +6,30 @@ AR=ar
 ARFLAG=-rc
 OBJDIR=.
 LIBDIR=./lib
+MAKEARGS=
+SYSNAME=$(shell uname -sm)
+SYSCOPY=$(shell uname -r)
+
+####check sys type###
+ifeq ($(findstring FreeBSD, $(SYSNAME)), FreeBSD)
+	MAKEARGS+=-D_SYS_FREEBSD
+	COPY_MACRO=-D_FREEBSD_RELEASE
+endif
+
+ifeq ($(findstring Linux, $(SYSNAME)), Linux)
+	MAKEARGS+=-D_SYS_LINUX
+	COPY_MACRO=-D_LINUX_LESS_2_4
+endif
+
+ifeq ($(findstring 2.6, $(SYSCOPY)), 2.6)
+	COPY_MACRO=-D_LINUX_2_6
+endif
+
+ifeq ($(findstring 2.4, $(SYSCOPY)), 2.4)
+	COPY_MACRO=-D_LINUX_2_4 
+endif
+
+MAKEARGS+=$(COPY_MACRO)
 
 #SRCDIR=src
 #SRC:=$(wildcard $(SRCDIR)/*.c)
@@ -34,7 +58,7 @@ all:subdirs target test_suite after_process
 
 subdirs:
 	@for subdir in $(SRCDIR); do \
-		(cd $$subdir && gmake) \
+		(cd $$subdir && gmake 'MAKEARGS=$(MAKEARGS)') \
 		done;
 
 target:
@@ -43,7 +67,7 @@ target:
 
 test_suite:
 	@for subdir in $(TESTSUITE); do \
-		(cd $$subdir && gmake) \
+		(cd $$subdir && gmake 'MAKEARGS=$(MAKEARGS)') \
 		done;
 
 #bin:$(OBJ)

@@ -42,7 +42,17 @@ typedef struct mcl_iter_s {
 #define MCL_ITERATOR_ERASE(_iter, _container_ptr) \
 	(_container_ptr)->iter_erase(&(_iter), (_container_ptr))
 
+
+
 #define ITER_NULL(_iterp) \
 	((_iterp)->_ptr == NULL)
+
+#define ITER_HEAD(_iter, _container_ptr) \
+	(_container_ptr)->iter_head(_iter, _container_ptr)
+
+#define ITER_NEXT(_iter, _container_ptr) \
+	(_container_ptr)->iter_next(_iter, _container_ptr)
+
+
 
 #endif

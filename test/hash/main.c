@@ -1,4 +1,4 @@
-#include <mcl_hash.h>
+#include <util/mcl_hash.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
 	int int_key = 0;
 	mcl_string *str_key = NULL;
 	node_type *data = NULL;
-	char *strp = NULL;
+	const char *strp = NULL;
 
 	srand(time(NULL));
 

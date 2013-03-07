@@ -3,6 +3,7 @@
 
 #include <mcl_common.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 MCL_HEADER_BEGIN
 
@@ -44,8 +45,11 @@ void mcl_log_set_dir(const char *dirname);
 #define MCLOG_ERROR(__logger, __fmt, __arg) \
 	mcl_log_info(__logger, LV_ERROR, __FILE__, __LINE__, __fmt, __arg)
 
-#define MCLOG_FATAL(__logger, __fmt, __arg) \
-	mcl_log_info(__logger, LV_FATAL, __FILE__, __LINE__, __fmt, __arg)
+#define MCLOG_FATAL(__logger, __fmt, __arg) do {\
+	mcl_log_info(__logger, LV_FATAL, __FILE__, __LINE__, __fmt, __arg); \
+	abort(); \
+} while(0)
+
 
 MCL_HEADER_END
 
