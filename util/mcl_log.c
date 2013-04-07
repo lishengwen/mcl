@@ -12,6 +12,7 @@
 #define MAX_LOG_BUFF_LEN	256
 #define MAX_LOG_MODE_LEN	8
 static char *g_log_dirname = "";
+static char *g_default_stdout = "__STDOUT__";
 
 static void make_filepath(char *output, int size, const char *filename)
 {
@@ -31,16 +32,23 @@ mcl_log *mcl_log_new(const char *log_name)
 	mcl_log *logger = (mcl_log *)malloc(sizeof(*logger));
 	char file_path[512];
 
-	make_filepath(file_path, sizeof(file_path), log_name);
-	if (!strlen(file_path)) {
-		fprintf(stderr, "log path error for name %s\n", log_name);
-		return NULL;
+	if (!strcmp(log_name, g_default_stdout)) {
+		fp = stdout;
 	}
+	else {
+		make_filepath(file_path, sizeof(file_path), log_name);
+		if (!strlen(file_path)) {
+			fprintf(stderr, "log path error for name %s\n", log_name);
+			free(logger);
+			return NULL;
+		}
 
-	fp = fopen(file_path, "a");
-	if (!fp) {
-		perror("open");
-		return NULL;
+		fp = fopen(file_path, "a");
+		if (!fp) {
+			free(logger);
+			perror("open");
+			return NULL;
+		}
 	}
 
 	logger->_fp = fp;
